@@ -1,0 +1,422 @@
+// prisma-app/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  // Le decimos que genere este cliente en otra carpeta única
+  output   = "../node_modules/@prisma/client-app"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Esta variable la llenaremos con la URL de tu VPS cuando esté lista
+  url      = env("DATABASE_URL_APP")
+}
+
+// Modelos de la base de datos de la aplicación (db-app)
+// ... (Aquí van todos los modelos de Localidad, Negocio, Oferta, etc., que me mostraste)
+
+
+// ENUMs para la base de datos de la aplicación
+
+enum TipoPrivacidadComunidad {
+  publica
+  privada_con_aprobacion
+  secreta_por_invitacion
+}
+
+enum RolEnComunidadTipo {
+  administrador
+  moderador
+  miembro
+}
+
+enum EstadoMiembroComunidadTipo {
+  activo
+  pendiente_aprobacion
+  invitado
+  bloqueado
+  rechazado
+}
+
+enum EstadoModeracionGeneralTipo {
+  pendiente
+  aprobado
+  rechazado
+  escalado_a_admin
+}
+
+enum ModalidadServicioBtTipo {
+  presencial
+  online
+  mixta
+}
+
+enum EstadoIntercambioBtTipo {
+  solicitado
+  acordado
+  en_progreso
+  completado
+  cancelado_oferente
+  cancelado_solicitante
+  disputado
+  pendiente_confirmacion
+}
+
+enum EntidadSelloTipo {
+  negocio
+  oferta
+  profesional
+}
+
+enum TipoEntidadPublica {
+  policia
+  bomberos
+  ayuntamiento
+  proteccion_civil
+  centro_salud
+  otro
+}
+
+enum TipoAvisoOficial {
+  trafico
+  evento_cultural
+  emergencia
+  aviso_informativo
+  fiestas_locales
+  otro
+}
+
+enum RolUsuarioEntidad {
+  publicador
+  gestor
+}
+
+// Modelos de la base de datos de la aplicación
+
+model Localidad {
+  id                      Int                     @id @default(autoincrement())
+  nombreLocalidad         String                  @unique
+  provincia               String?
+  comarca                 String?
+  pais                    String                  @default("España")
+  latitudCentro           Decimal?
+  longitudCentro          Decimal?
+  codigoPostalPrincipal   String?
+  estaActiva              Boolean                 @default(true)
+  fechaCreacion           DateTime                @default(now())
+  fechaActualizacion      DateTime                @updatedAt
+  negocios                Negocio[]
+  incidencias             IncidenciaCiudadana[]
+  comunidades             ComunidadVecinal[]
+  serviciosBt             BancoTiempoServicio[]
+  sellosGestionados       SelloAutenticidadLocal[]
+  rolesSistema            UsuarioRolSistema[]
+  entidadesPublicas       EntidadPublica[]
+}
+
+model CategoriaNegocio {
+  id                Int                     @id @default(autoincrement())
+  nombreCategoria   Json
+  descripcion       Json?
+  iconoUrl          String?
+  negocios          NegocioCategoriaUnion[]
+}
+
+model Negocio {
+  id                        String                  @id @default(uuid())
+  propietarioId             String                  // Relación LÓGICA con User en la DB Auth
+  localidadId               Int
+  nombreNegocio             Json
+  descripcion               Json?
+  direccionFisica           String?
+  latitud                   Decimal?
+  longitud                  Decimal?
+  telefono                  String?
+  correoElectronicoNegocio  String?                 @unique
+  sitioWebUrl               String?
+  redesSociales             Json?
+  galeriaFotosUrls          String[]
+  horarioApertura           Json?
+  estaActivo                Boolean                 @default(false)
+  planSuscripcion           String                  @default("gratuito")
+  fechaCreacion             DateTime                @default(now())
+  fechaActualizacion        DateTime                @updatedAt
+  localidad                 Localidad               @relation(fields: [localidadId], references: [id], onDelete: Restrict)
+  categorias                NegocioCategoriaUnion[]
+  ofertas                   Oferta[]
+  valoraciones              Valoracion[]
+  favoritos                 Favorito[]
+}
+
+model NegocioCategoriaUnion {
+  negocio     Negocio          @relation(fields: [negocioId], references: [id], onDelete: Cascade)
+  negocioId   String
+  categoria   CategoriaNegocio @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  categoriaId Int
+
+  @@id([negocioId, categoriaId])
+}
+
+model CategoriaOferta {
+  id              Int                   @id @default(autoincrement())
+  nombreCategoria Json
+  descripcion     Json?
+  iconoUrl        String?
+  ofertas         OfertaCategoriaUnion[]
+}
+
+model Oferta {
+  id                    String                 @id @default(uuid())
+  negocioId             String
+  tituloOferta          Json
+  descripcionCorta      Json?
+  descripcionLarga      Json?
+  precio                Decimal
+  moneda                String                 @default("EUR")
+  capacidadMaxima       Int?
+  fechaInicioValidez    DateTime?              @db.Date
+  fechaFinValidez       DateTime?              @db.Date
+  horaInicio            String?
+  horaFin               String?
+  duracionMinutos       Int?
+  imagenPrincipalUrl    String?
+  estaActiva            Boolean                @default(false)
+  detallesUbicacion     Json?
+  politicaCancelacion   Json?
+  fechaCreacion         DateTime               @default(now())
+  fechaActualizacion    DateTime               @updatedAt
+  negocio               Negocio                @relation(fields: [negocioId], references: [id], onDelete: Cascade)
+  categorias            OfertaCategoriaUnion[]
+  reservas              Reserva[]
+  valoraciones          Valoracion[]
+  favoritos             Favorito[]
+}
+
+model OfertaCategoriaUnion {
+  oferta      Oferta          @relation(fields: [ofertaId], references: [id], onDelete: Cascade)
+  ofertaId    String
+  categoria   CategoriaOferta @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  categoriaId Int
+
+  @@id([ofertaId, categoriaId])
+}
+
+model Reserva {
+  id                      String   @id @default(uuid())
+  usuarioId               String
+  ofertaId                String
+  fechaReservaCreacion    DateTime @default(now())
+  fechaServicioReservado  DateTime @db.Date
+  horaServicioReservado   String?
+  cantidad                Int      @default(1)
+  precioTotal             Decimal
+  estadoReserva           String   @default("pendiente")
+  idPagoStripe            String?  @unique
+  qrCodigoUrl             String?
+  fechaActualizacion      DateTime @updatedAt
+  oferta                  Oferta   @relation(fields: [ofertaId], references: [id], onDelete: Cascade)
+}
+
+model Valoracion {
+  id            String   @id @default(uuid())
+  usuarioId     String
+  negocioId     String?
+  ofertaId      String?
+  puntuacion    Int
+  comentario    String?
+  fechaCreacion DateTime @default(now())
+  negocio       Negocio? @relation(fields: [negocioId], references: [id], onDelete: Cascade)
+  oferta        Oferta?  @relation(fields: [ofertaId], references: [id], onDelete: Cascade)
+}
+
+model Favorito {
+  id            String   @id @default(uuid())
+  usuarioId     String
+  negocioId     String?
+  ofertaId      String?
+  fechaCreacion DateTime @default(now())
+  negocio       Negocio? @relation(fields: [negocioId], references: [id], onDelete: Cascade)
+  oferta        Oferta?  @relation(fields: [ofertaId], references: [id], onDelete: Cascade)
+}
+
+model IncidenciaCiudadana {
+  id                    String    @id @default(uuid())
+  usuarioId             String?
+  localidadId           Int
+  tituloIncidencia      String
+  descripcionIncidencia String
+  latitud               Decimal?
+  longitud              Decimal?
+  direccionReportada    String?
+  estadoIncidencia      String    @default("pendiente")
+  imagenUrl             String?
+  tipoIncidencia        String?
+  fechaCreacion         DateTime  @default(now())
+  fechaActualizacion    DateTime  @updatedAt
+  localidad             Localidad @relation(fields: [localidadId], references: [id], onDelete: Restrict)
+}
+
+model ComunidadVecinal {
+  idComunidad          String                 @id @default(uuid())
+  nombreComunidad      Json
+  descripcionComunidad Json?
+  localidadId          Int
+  creadorUsuarioId     String
+  tipoPrivacidad       TipoPrivacidadComunidad @default(publica)
+  imagenPortadaUrl     String?
+  reglasComunidad      Json?
+  estadoModeracion     EstadoModeracionGeneralTipo @default(pendiente)
+  fechaCreacion        DateTime               @default(now())
+  fechaActualizacion   DateTime               @updatedAt
+  localidad            Localidad              @relation(fields: [localidadId], references: [id], onDelete: Cascade)
+  miembros             ComunidadMiembro[]
+  publicaciones        PublicacionComunidad[]
+}
+
+model ComunidadMiembro {
+  comunidadId    String
+  usuarioId      String
+  rolEnComunidad RolEnComunidadTipo         @default(miembro)
+  fechaUnion     DateTime                   @default(now())
+  estadoMiembro  EstadoMiembroComunidadTipo @default(pendiente_aprobacion)
+  comunidad      ComunidadVecinal           @relation(fields: [comunidadId], references: [idComunidad], onDelete: Cascade)
+
+  @@id([comunidadId, usuarioId])
+}
+
+model PublicacionComunidad {
+  idPublicacion    String                      @id @default(uuid())
+  comunidadId      String
+  usuarioAutorId   String
+  contenidoTexto   String
+  adjuntosUrls     String[]
+  hiloRespuestaAId String?
+  estadoModeracion EstadoModeracionGeneralTipo @default(pendiente)
+  fechaCreacion    DateTime                    @default(now())
+  fechaActualizacion DateTime                  @updatedAt
+  comunidad        ComunidadVecinal            @relation(fields: [comunidadId], references: [idComunidad], onDelete: Cascade)
+  respuestaA       PublicacionComunidad?       @relation("HiloRespuestas", fields: [hiloRespuestaAId], references: [idPublicacion], onDelete: Cascade, onUpdate: NoAction)
+  respuestas       PublicacionComunidad[]      @relation("HiloRespuestas")
+}
+
+model BancoTiempoServicio {
+  idServicioBt               String                    @id @default(uuid())
+  usuarioOferenteId          String
+  tituloServicio             Json
+  descripcionHabilidad       Json?
+  categoriaServicioBt        String?
+  horasEstimadasOValorTiempo Decimal?
+  modalidad                  ModalidadServicioBtTipo   @default(presencial)
+  localidadId                Int?
+  estaActivoBt               Boolean                   @default(true)
+  fechaCreacion              DateTime                  @default(now())
+  fechaActualizacion         DateTime                  @updatedAt
+  localidad                  Localidad?                @relation(fields: [localidadId], references: [id], onDelete: SetNull)
+  intercambios               IntercambioTiempoRegistrado[]
+}
+
+model IntercambioTiempoRegistrado {
+  idIntercambioBt                    String                    @id @default(uuid())
+  servicioIdBt                       String
+  usuarioSolicitanteId               String
+  usuarioOferenteId                  String
+  fechaSolicitud                     DateTime                  @default(now())
+  fechaAcuerdo                       DateTime?
+  fechaRealizacionPrevista           DateTime?
+  fechaRealizacionEfectiva           DateTime?
+  estadoIntercambio                  EstadoIntercambioBtTipo   @default(solicitado)
+  notasIntercambio                   String?
+  valoracionDelIntercambioOferente   Json?
+  valoracionDelIntercambioSolicitante Json?
+  fechaCreacion                      DateTime                  @default(now())
+  fechaActualizacion                 DateTime                  @updatedAt
+  servicio                           BancoTiempoServicio       @relation(fields: [servicioIdBt], references: [idServicioBt], onDelete: Cascade)
+}
+
+model SelloAutenticidadLocal {
+  idSello                  String           @id @default(uuid())
+  nombreSello              Json
+  descripcionSello         Json?
+  criteriosObtencion       Json?
+  iconoSelloUrl            String?
+  gestionadoPorLocalidadId Int?
+  estaActivo               Boolean          @default(true)
+  fechaCreacion            DateTime         @default(now())
+  fechaActualizacion       DateTime         @updatedAt
+  localidad                Localidad?       @relation(fields: [gestionadoPorLocalidadId], references: [id], onDelete: SetNull)
+  entidades                EntidadConSello[]
+}
+
+model EntidadConSello {
+  selloId             String
+  entidadTipo         EntidadSelloTipo
+  entidadId           String
+  fechaOtorgamiento   DateTime         @default(now())
+  fechaVencimiento    DateTime?
+  otorgadoPorUsuarioId String?
+  metadataAdicional   Json?
+  sello               SelloAutenticidadLocal @relation(fields: [selloId], references: [idSello], onDelete: Cascade)
+
+  @@id([selloId, entidadId, entidadTipo])
+}
+
+model RolSistema {
+  idRol        Int                 @id @default(autoincrement())
+  nombreRol     String              @unique
+  descripcion   String?
+  fechaCreacion DateTime            @default(now())
+  usuarios      UsuarioRolSistema[]
+}
+
+model UsuarioRolSistema {
+  idAsignacion       String     @id @default(uuid())
+  usuarioId          String
+  rolId              Int
+  localidadId        Int?
+  estaActivo         Boolean    @default(true)
+  metadataAsignacion Json?
+  fechaAsignacion    DateTime   @default(now())
+  fechaActualizacion DateTime   @updatedAt
+  rol                RolSistema @relation(fields: [rolId], references: [idRol], onDelete: Cascade)
+  localidad          Localidad? @relation(fields: [localidadId], references: [id], onDelete: SetNull)
+
+  @@unique([usuarioId, rolId, localidadId])
+}
+
+model EntidadPublica {
+  id                 String              @id @default(uuid())
+  localidadId        Int
+  nombreEntidad      String
+  tipoEntidad        TipoEntidadPublica
+  descripcion        String?
+  contacto           Json?
+  logoUrl            String?
+  fechaCreacion      DateTime            @default(now())
+  fechaActualizacion DateTime            @updatedAt
+  localidad          Localidad           @relation(fields: [localidadId], references: [id], onDelete: Cascade)
+  avisos             AvisoOficial[]
+  usuarios           UsuarioPorEntidad[]
+}
+
+model AvisoOficial {
+  id                  String           @id @default(uuid())
+  entidadId           String
+  usuarioPublicadorId String
+  titulo              String
+  contenido           String
+  tipoAviso           TipoAvisoOficial
+  fechaInicio         DateTime?
+  fechaFin            DateTime?
+  fechaCreacion       DateTime         @default(now())
+  fechaActualizacion  DateTime         @updatedAt
+  entidad             EntidadPublica   @relation(fields: [entidadId], references: [id], onDelete: Cascade)
+}
+
+model UsuarioPorEntidad {
+  usuarioId String            
+  entidadId String
+  rol       RolUsuarioEntidad
+  
+  entidad   EntidadPublica    @relation(fields: [entidadId], references: [id], onDelete: Cascade) // <--- CORREGIDO
+  @@id([usuarioId, entidadId])
+}
