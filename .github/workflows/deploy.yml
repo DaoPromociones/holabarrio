@@ -1,0 +1,49 @@
+# Nombre del workflow
+name: Deploy to VPS
+
+# Disparador: se activa cuando subes código a la rama 'main'
+on:
+  push:
+    branches:
+      - main
+
+# Trabajos a ejecutar
+jobs:
+  deploy:
+    # El tipo de máquina virtual donde se ejecutará el workflow
+    runs-on: ubuntu-latest
+
+    # Pasos del trabajo
+    steps:
+      # Paso 1: Descarga tu código del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Paso 2: Ejecuta los comandos en tu VPS por SSH
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            # Navega a la carpeta principal del proyecto Docker en el VPS
+            cd ~/osrm_project
+            
+            # Entra en la carpeta de la app, actualiza el código y vuelve
+            cd holabarrio
+            git pull origin main
+            cd ..
+
+            # Detiene los contenedores actuales
+            docker compose down
+            
+            # Reconstruye (si hay cambios) y levanta todos los servicios
+            docker compose up --build -d
+            
+            # (Opcional) Pausa para que los servicios se estabilicen
+            echo "Esperando 10 segundos..."
+            sleep 10
+
+            # Limpia imágenes de Docker que ya no se usan
+            docker image prune -f
