@@ -12,6 +12,19 @@ export class UserService implements UserPort {
     return this.userRepository.findById(id);
   }
 
+  async createUser(data: Omit<User, "id" | "role" | "updatedAt" | "emailVerified">): Promise<User> {
+    // Aquí podríamos añadir lógica de negocio, como validar los datos
+    // o enviar un email de bienvenida usando un futuro EmailService.
+    // Por ahora, delegamos directamente al repositorio.
+    // El servicio se encarga de la lógica de negocio: asignar un rol por defecto.
+    const dataWithRole = {
+      ...data,
+      emailVerified: null,
+      role: "USER" as const,
+    };
+    return this.userRepository.create(dataWithRole);
+  }
+
   async getAllUsers(): Promise<User[]> {
     return this.userRepository.findAll();
   }
@@ -24,12 +37,7 @@ export class UserService implements UserPort {
     await this.userRepository.delete(id);
   }
 
-  // ... (dentro de la clase UserService)
+  
 
-  async createUser(data: Omit<User, "id" | "updatedAt" | "role">): Promise<User> {
-    // Aquí podríamos añadir lógica de negocio, como validar los datos
-    // o enviar un email de bienvenida usando un futuro EmailService.
-    // Por ahora, delegamos directamente al repositorio.
-    return this.userRepository.create(data);
-  }
+  
 }
