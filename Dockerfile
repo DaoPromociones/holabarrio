@@ -1,18 +1,35 @@
-# Usa una imagen base de Node.js
-FROM node:18-alpine
+# Dockerfile
 
-# Define el directorio de trabajo dentro del contenedor
+# 1. Etapa de dependencias
+FROM node:20-alpine AS deps
 WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN npm i -g pnpm && pnpm install --frozen-lockfile
 
-# Copia el package.json y package-lock.json para instalar dependencias
-COPY package*.json ./
-RUN npm install
-
-# Copia el resto del código de tu app
+# 2. Etapa de construcción (build)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Expone el puerto que usa Next.js
-EXPOSE 3000
+# --- LÍNEA CRÍTICA AÑADIDA ---
+# Genera los clientes de Prisma ANTES de construir la app
+RUN npm i -g pnpm && pnpm db:generate
 
-# El comando para iniciar el servidor de desarrollo
-CMD ["npm", "run", "dev"]
+# Construye la aplicación de Next.js
+RUN pnpm build
+
+# 3. Etapa de producción
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+EXPOSE 3000
+ENV PORT 3000
+
+CMD ["node", "server.js"]
