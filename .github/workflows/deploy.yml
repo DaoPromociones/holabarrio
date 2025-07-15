@@ -27,6 +27,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
+            set -e
             # Navega a la carpeta principal del proyecto Docker en el VPS
             cd ~/osrm_project
             
