@@ -4,7 +4,8 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN npm i -g pnpm && pnpm install --frozen-lockfile
+# CORRECCIÓN AQUÍ: Añadido --ignore-scripts=false
+RUN npm i -g pnpm && pnpm install --ignore-scripts=false --frozen-lockfile
 
 # 2. Etapa de construcción (build)
 FROM node:20-alpine AS builder
@@ -12,7 +13,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# --- LÍNEA CRÍTICA AÑADIDA ---
 # Genera los clientes de Prisma ANTES de construir la app
 RUN npm i -g pnpm && pnpm db:generate
 
