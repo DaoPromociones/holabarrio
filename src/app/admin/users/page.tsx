@@ -1,7 +1,7 @@
 // src/app/admin/users/page.tsx
 import { userServiceInstance } from "@/lib/di-container";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions"; 
 import { redirect } from "next/navigation";
 
 export default async function AdminUsersPage() {
