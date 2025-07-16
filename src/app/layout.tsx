@@ -5,7 +5,7 @@ import { NextAuthProvider } from "./providers"; // <-- 1. Importar
 import "./globals.css";
 
 const inter = localFont({
-  src: '../assets/fonts/inter-v13-latin-regular.woff2',
+  src: '../assets/fonts/inter-v19-latin-regular.woff2',
   display: 'swap',
   variable: '--font-inter', // Opcional, para usar con Tailwind
 })
