@@ -31,6 +31,7 @@ COPY --from=builder /app/public ./public
 # Copiamos la build standalone completa. Esto incluye el server.js, 
 # node_modules y los ficheros estáticos necesarios.
 COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 ENV PORT 3000
