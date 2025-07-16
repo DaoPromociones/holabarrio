@@ -1,14 +1,18 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from 'next/font/local';
 import { NextAuthProvider } from "./providers"; // <-- 1. Importar
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = localFont({
+  src: '../assets/fonts/inter-v13-latin-regular.woff2',
+  display: 'swap',
+  variable: '--font-inter', // Opcional, para usar con Tailwind
+})
 
 export const metadata: Metadata = {
   title: "HolaBarrio",
-  description: "Construido para la comunidad",
+  description: "Descubre y conecta con tu entorno local",
 };
 
 export default function RootLayout({
@@ -19,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={inter.className}>
-        <NextAuthProvider> {/* <-- 2. Envolver */}
+        <NextAuthProvider> 
           {children}
         </NextAuthProvider>
       </body>
