@@ -9,69 +9,57 @@ on:
       - closed
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref }}
 
 jobs:
-  setup:
-    name: Setup
-    outputs:
-      branch: ${{ steps.branch_name.outputs.current_branch }}
+  # Este trabajo genera un nombre de rama consistente y lo pasa a los otros trabajos
+  branch-name:
+    name: Get Branch Name
     runs-on: ubuntu-latest
+    outputs:
+      name: preview/pr-${{ github.event.number }}-${{ github.head_ref }}
     steps:
-      - name: Get branch name
-        id: branch_name
-        uses: tj-actions/branch-names@v8
+      - run: echo "Branch name will be preview/pr-${{ github.event.number }}-${{ github.head_ref }}"
 
   create_neon_branch:
     name: Create Neon Branch
-    outputs:
-      db_url: ${{ steps.create_neon_branch.outputs.db_url }}
-      db_url_with_pooler: ${{ steps.create_neon_branch.outputs.db_url_with_pooler }}
-    needs: setup
-    if: |
-      github.event_name == 'pull_request' && (
-      github.event.action == 'synchronize'
-      || github.event.action == 'opened'
-      || github.event.action == 'reopened')
-    
-    # Permisos necesarios para que la action de schema-diff pueda comentar en la PR
+    needs: branch-name # Depende del trabajo anterior para obtener el nombre
+    if: github.event.action != 'closed'
     permissions:
       contents: read
       pull-requests: write
-      
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Create Neon Branch
         id: create_neon_branch
         uses: neondatabase/create-branch-action@v5
         with:
           project_id: ${{ vars.NEON_PROJECT_ID }}
-          branch_name: preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch }}
+          branch_name: ${{ needs.branch-name.outputs.name }}
           api_key: ${{ secrets.NEON_API_KEY }}
+          # --- CORRECCIÓN 1: Especificamos el rol ---
+          username: neondb_owner
 
-      # Este es el paso clave que hemos activado
-      - name: Run Migrations
-        run: npm run db:migrate # Asegúrate de que este sea tu comando de migración
-        env:
-          DATABASE_URL: "${{ steps.create_neon_branch.outputs.db_url_with_pooler }}"
+      - name: Install dependencies
+        run: npm i -g pnpm && pnpm install --frozen-lockfile
       
-      # Opcional: Descomenta si quieres ver los cambios de esquema en la PR
-      # - name: Post Schema Diff Comment to PR
-      #   uses: neondatabase/schema-diff-action@v1
-      #   with:
-      #     project_id: ${{ vars.NEON_PROJECT_ID }}
-      #     compare_branch: preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch }}
-      #     api_key: ${{ secrets.NEON_API_KEY }}
+      - name: Run Auth DB Migrations
+        run: pnpm prisma migrate deploy --schema=./prisma-auth/schema.prisma
+        env:
+          # --- Usamos la URL de conexión directa que genera el paso anterior ---
+          DATABASE_URL_AUTH_DIRECT: "${{ steps.create_neon_branch.outputs.db_url }}"
 
   delete_neon_branch:
     name: Delete Neon Branch
-    needs: setup
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    needs: branch-name # Depende del primer trabajo para obtener el nombre
+    if: github.event.action == 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Delete Neon Branch
         uses: neondatabase/delete-branch-action@v3
         with:
           project_id: ${{ vars.NEON_PROJECT_ID }}
-          branch: preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch }}
+          # --- CORRECCIÓN 2: Usamos el nombre consistente ---
+          branch: ${{ needs.branch-name.outputs.name }}
           api_key: ${{ secrets.NEON_API_KEY }}
