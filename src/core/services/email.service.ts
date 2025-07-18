@@ -1,6 +1,6 @@
 // src/core/services/email.service.ts
-import { EmailPort } from "../ports/in/email.port";
-import { EmailRepository } from "../ports/out/email.repository";
+import { EmailPort } from "@/core/ports/in/email.port";
+import { EmailRepository } from "@/core/ports/out/email.repository";
 
 export class EmailService implements EmailPort {
   constructor(private readonly emailRepository: EmailRepository) {}

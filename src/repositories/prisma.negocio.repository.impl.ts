@@ -1,7 +1,7 @@
 
 import { prismaApp } from "@/lib/prisma";
-import { Negocio } from "../core/models/negocio";
-import { NegocioRepository } from "../core/ports/out/negocio.repository";
+import { Negocio } from "@/core/models/negocio";
+import { NegocioRepository } from "@/core/ports/out/negocio.repository";
 
 // Mapper para convertir el modelo de Prisma a nuestro modelo de dominio
 const toModel = (negocio: any): Negocio => {

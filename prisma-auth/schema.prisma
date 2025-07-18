@@ -47,13 +47,11 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
+  password      String?   // <-- AÑADE ESTA LÍNEA
   emailVerified DateTime?
   image         String?
-  
-  // --- AÑADIMOS NUESTROS CAMPOS PERSONALIZADOS AQUÍ ---
   nombreUsuario String?   @unique
   role          UserRole  @default(USER)
-
   accounts      Account[]
   sessions      Session[]
 }

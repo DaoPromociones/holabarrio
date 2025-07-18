@@ -1,0 +1,145 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "dashboard": "Panel",
+    "mapa": "Mapa",
+    "menu_title": "Menú"
+  },
+  "home": {
+    "hero": {
+      "title": "Bienvenido al ecosistema que ilumina tu ciudad.",
+      "subtitle": "Nuestro Sol no es de fuego. Es de información abierta.",
+      "getStarted": "Inicia tu Exploración"
+    },
+    "citizen_section": {
+      "title": "Tu día a día, conectado.",
+      "subtitle": "Toda la información que necesitas en la palma de tu mano, en tiempo real.",
+      "feature_transport": "Sigue tu autobús y olvídate de las esperas innecesarias.",
+      "feature_parking": "Encuentra aparcamiento libre antes de salir de casa.",
+      "feature_incidents": "Conviértete en un sensor de tu ciudad: reporta una incidencia en segundos.",
+      "feature_agenda": "No te pierdas nada: la agenda cultural, deportiva y de ocio, unificada para ti.",
+      "cta": "Explorar el mapa interactivo"
+    },
+    "commerce_section": {
+      "title": "Potencia tu Negocio Local.",
+      "subtitle": "Herramientas diseñadas para conectar tu comercio con la comunidad y aumentar tu visibilidad.",
+      "feature_geomarketing": "Llega a los clientes que pasan por tu puerta con promociones geolocalizadas.",
+      "feature_offers": "Publica ofertas y eventos en tiempo real para atraer a más público.",
+      "feature_stats": "Entiende a tus clientes con estadísticas sencillas sobre tu alcance y visitas.",
+      "cta_primary": "Registrar mi Comercio",
+      "cta_secondary": "Conocer las ventajas"
+    },
+    "association_section": {
+      "title": "Organiza y Dinamiza tu Comunidad.",
+      "subtitle": "La plataforma para que asociaciones y clubes conecten con sus miembros y con toda la ciudad.",
+      "feature_events": "Crea y promociona tus eventos en una agenda unificada que llega a todos.",
+      "feature_members": "Facilita la comunicación con tus socios y la gestión de tu comunidad.",
+      "feature_visibility": "Consigue un espacio propio para ganar visibilidad y atraer a nuevos miembros.",
+      "cta_primary": "Registrar mi Asociación",
+      "cta_secondary": "Saber más"
+    },
+    "tourist_section": {
+      "title": "Tu Aventura Comienza Aquí.",
+      "subtitle": "Diseñada para exploradores. Convierte tu visita en una experiencia inolvidable con el guía definitivo en tu bolsillo.",
+      "feature_map": "Mapa Interactivo",
+      "feature_pois": "Puntos de Interés",
+      "feature_routes": "Rutas Sugeridas",
+      "feature_audio": "Audioguías",
+      "cta": "Empezar a Explorar el Mapa"
+    }
+  },
+  "auth": {
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse",
+    "signInDescription": "Ingresa a tu cuenta para continuar",
+    "signUpDescription": "Crea una cuenta para empezar",
+    "continueWith": "O continúa con",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "signInWithGoogle": "Continuar con Google",
+    "signInWithGitHub": "Continuar con GitHub"
+  },
+  "dashboard": {
+    "welcome": "Bienvenido al Panel",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  },
+  "footer": {
+    "tagline": "Conectando comunidades, creando oportunidades.",
+    "product_title": "Producto",
+    "product_citizens": "Para Ciudadanos",
+    "product_businesses": "Para Comercios",
+    "product_associations": "Para Asociaciones",
+    "company_title": "Compañía",
+    "company_about": "Sobre Nosotros",
+    "company_contact": "Contacto",
+    "company_gov": "Para Ayuntamientos",
+    "legal_title": "Legal",
+    "legal_privacy": "Política de Privacidad",
+    "legal_cookies": "Política de Cookies",
+    "legal_notice": "Aviso Legal",
+    "copyright": "Todos los derechos reservados."
+  },
+  "council_page": {
+    "hero": {
+      "title": "La Herramienta Definitiva para la Gestión de una Ciudad Inteligente",
+      "subtitle": "Centralice servicios, comunique de forma instantánea y tome decisiones basadas en datos reales de su comunidad.",
+      "cta_button": "Solicitar una Demo Personalizada"
+    },
+    "problem_solution": {
+      "title": "Modernice su Gestión, Simplifique su Comunicación",
+      "subtitle": "Entendemos los retos de la administración local en la era digital.",
+      "problem_title": "Retos Actuales",
+      "solution_title": "Nuestra Solución",
+      "problem1": "Comunicación unidireccional y poco efectiva con los ciudadanos.",
+      "solution1": "Un canal de comunicación directo, bidireccional y en tiempo real.",
+      "problem2": "Datos dispersos y falta de información para tomar decisiones.",
+      "solution2": "Centralización de datos y analíticas de movilidad y participación.",
+      "problem3": "El comercio local es invisible en el ecosistema digital.",
+      "solution3": "Una potente plataforma para dinamizar la economía local bajo su respaldo."
+    },
+    "modules_section": {
+      "title": "Módulos de Inteligencia para la Ciudad del Futuro",
+      "subtitle": "Potencie su gestión con herramientas de análisis y participación ciudadana diseñadas para el sector público.",
+      "module1_title": "Analíticas de Movilidad",
+      "module1_description": "Convierta datos anónimos en conocimiento para optimizar el tráfico, el transporte público y la planificación urbana.",
+      "module1_feature1": "Mapas de calor de afluencia",
+      "module1_feature2": "Análisis de rutas populares",
+      "module1_feature3": "Informes de uso del parking",
+      "module2_title": "Participación Ciudadana Pro",
+      "module2_description": "Involucre a sus ciudadanos en las decisiones importantes con herramientas de interacción directa y transparente.",
+      "module2_feature1": "Encuestas y sondeos geolocalizados",
+      "module2_feature2": "Presupuestos participativos",
+      "module2_feature3": "Votaciones para propuestas locales",
+      "module3_title": "Gestión de Crisis y Alertas",
+      "module3_description": "Comunique información crítica de forma instantánea y segmentada durante eventos o emergencias.",
+      "module3_feature1": "Envío de alertas push masivas",
+      "module3_feature2": "Segmentación por barrios o zonas",
+      "module3_feature3": "Canal de comunicación de emergencia"
+    },
+    "contact_section": {
+      "title": "Hablemos de futuro.",
+      "subtitle": "Rellene el formulario y nuestro equipo se pondrá en contacto para agendar una demostración personalizada y sin compromiso.",
+      "label_name": "Nombre completo",
+      "placeholder_name": "Su nombre y apellidos",
+      "label_role": "Cargo",
+      "placeholder_role": "Ej: Concejal de Nuevas Tecnologías",
+      "label_council": "Ayuntamiento / Entidad",
+      "placeholder_council": "Ej: Ayuntamiento de Blanes",
+      "label_email": "Correo electrónico",
+      "placeholder_email": "su.email@dominio.es",
+      "label_message": "Mensaje (opcional)",
+      "placeholder_message": "¿Hay algo específico que le gustaría ver en la demo?",
+      "button_submit": "Solicitar Demo"
+    }
+  }
+}

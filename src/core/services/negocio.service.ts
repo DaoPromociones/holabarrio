@@ -1,7 +1,7 @@
 
-import { Negocio } from "../models/negocio";
-import { NegocioPortIn } from "../ports/in/negocio.port";
-import { NegocioRepository } from "../ports/out/negocio.repository";
+import { Negocio } from "@/core/models/negocio";
+import { NegocioPortIn } from "@/core/ports/in/negocio.port";
+import { NegocioRepository } from "@/core/ports/out/negocio.repository";
 
 export class NegocioService implements NegocioPortIn {
   constructor(private readonly negocioRepository: NegocioRepository) {}

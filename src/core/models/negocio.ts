@@ -1,5 +1,5 @@
 // src/core/models/negocio.ts
-import { Json } from "../types/json";
+import { Json } from "@/core/types/json";
 
 export interface Negocio {
   id: string;

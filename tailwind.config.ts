@@ -1,13 +1,14 @@
 // tailwind.config.ts
+
 import type { Config } from "tailwindcss"
 
 const config = {
   darkMode: ["class"],
   content: [
-    './src/pages/**/*.{ts,tsx}',
-    './src/components/**/*.{ts,tsx}',
-    './src/app/**/*.{ts,tsx}',
-    './src/core/**/*.{ts,tsx}',
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
 	],
   prefix: "",
   theme: {
@@ -19,6 +20,10 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        'nebula': "url('/nebula-bg.png')", // Nuestra imagen personalizada
+        'nublado': "url('/nublado.png')", // Nuestra imagen personalizada
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -60,14 +65,22 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
-        // ... aquí podríamos añadir animaciones si las necesitamos
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
       },
       animation: {
-        // ...
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")], // ESTA LÍNEA ES ESENCIAL
 } satisfies Config
 
 export default config

@@ -1,31 +1,27 @@
-// src/app/layout.tsx
+// app/layout.tsx
 import type { Metadata } from "next";
-import localFont from 'next/font/local';
-import { NextAuthProvider } from "./providers"; // <-- 1. Importar
+import localFont from "next/font/local";
+import { Providers } from "./providers"; // <-- Importamos el nuevo
 import "./globals.css";
 
-const inter = localFont({
-  src: '../assets/fonts/inter-v19-latin-regular.woff2',
-  display: 'swap',
-  variable: '--font-inter', // Opcional, para usar con Tailwind
-})
+const inter = localFont({ src: '../assets/fonts/inter-v19-latin-regular.woff2' });
 
 export const metadata: Metadata = {
-  title: "HolaBarrio",
-  description: "Descubre y conecta con tu entorno local",
+  title: "HolaBarrio - La Plataforma que Ayuda a la Gente de tu Pueblo.",
+  description: "Descubre la SuperApp todo-en-uno para Ciudadan@s, Comerciant@s, Asociaciones y Admin Publicas.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
-        <NextAuthProvider> 
+        <Providers> {/* <-- Envolvemos con el componente unificado */}
           {children}
-        </NextAuthProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 // src/core/services/localidad.service.ts
 import { Localidad } from "@/core/models/localidad";
-import { LocalidadPort } from "../ports/in/localidad.port";
-import { LocalidadRepository } from "../ports/out/localidad.repository";
+import { LocalidadPort } from "@/core/ports/in/localidad.port";
+import { LocalidadRepository } from "@/core/ports/out/localidad.repository";
 
 export class LocalidadService implements LocalidadPort {
   

@@ -1,0 +1,145 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Sign In",
+    "register": "Sign Up",
+    "logout": "Sign Out",
+    "dashboard": "Dashboard",
+    "mapa": "Map",
+    "menu_title": "Menu"
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to the ecosystem that lights up your city.",
+      "subtitle": "Our sun isn't made of fire. It's made of open information.",
+      "cta_button": "Start your exploration"
+    },
+    "citizen_section": {
+      "title": "Your daily life, connected.",
+      "subtitle": "All the information you need in the palm of your hand, in real time.",
+      "feature_transport": "Follow your bus and forget about unnecessary waiting.",
+      "feature_parking": "Find free parking before leaving home.",
+      "feature_incidents": "Become a sensor for your city: report an incident in seconds.",
+      "feature_agenda": "Don't miss a thing: the cultural, sports, and leisure agenda, unified for you.",
+      "cta": "Explore the interactive map"
+    },
+    "commerce_section": {
+      "title": "Power Up Your Local Business.",
+      "subtitle": "Tools designed to connect your business with the community and increase your visibility.",
+      "feature_geomarketing": "Reach customers walking past your door with geolocated promotions.",
+      "feature_offers": "Publish real-time offers and events to attract a larger audience.",
+      "feature_stats": "Understand your customers with simple statistics on your reach and visits.",
+      "cta_primary": "Register My Business",
+      "cta_secondary": "Learn about the benefits"
+    },
+    "association_section": {
+      "title": "Organize and Energize Your Community.",
+      "subtitle": "The platform for associations and clubs to connect with their members and the entire city.",
+      "feature_events": "Create and promote your events on a unified agenda that reaches everyone.",
+      "feature_members": "Simplify communication with your members and the management of your community.",
+      "feature_visibility": "Get your own space to gain visibility and attract new members.",
+      "cta_primary": "Register My Association",
+      "cta_secondary": "Learn More"
+    },
+    "tourist_section": {
+      "title": "Your Adventure Starts Here.",
+      "subtitle": "Designed for explorers. Turn your visit into an unforgettable experience with the ultimate guide in your pocket.",
+      "feature_map": "Interactive Map",
+      "feature_pois": "Points of Interest",
+      "feature_routes": "Suggested Routes",
+      "feature_audio": "Audioguides",
+      "cta": "Start Exploring the Map"
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signInDescription": "Sign in to your account to continue",
+    "signUpDescription": "Create an account to get started",
+    "continueWith": "Or continue with",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signInWithGoogle": "Continue with Google",
+    "signInWithGitHub": "Continue with GitHub"
+  },
+  "dashboard": {
+    "welcome": "Welcome to Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "footer": {
+    "tagline": "Connecting communities, creating opportunities.",
+    "product_title": "Product",
+    "product_citizens": "For Citizens",
+    "product_businesses": "For Businesses",
+    "product_associations": "For Associations",
+    "company_title": "Company",
+    "company_about": "About Us",
+    "company_contact": "Contact",
+    "company_gov": "For Councils",
+    "legal_title": "Legal",
+    "legal_privacy": "Privacy Policy",
+    "legal_cookies": "Cookies Policy",
+    "legal_notice": "Legal Notice",
+    "copyright": "All rights reserved."
+  },
+  "council_page": {
+    "hero": {
+      "title": "The Ultimate Tool for Smart City Management",
+      "subtitle": "Centralize services, communicate instantly, and make decisions based on real data from your community.",
+      "cta_button": "Request a Personalized Demo"
+    },
+    "problem_solution": {
+      "title": "Modernize Your Management, Simplify Your Communication",
+      "subtitle": "We understand the challenges of local administration in the digital age.",
+      "problem_title": "Current Challenges",
+      "solution_title": "Our Solution",
+      "problem1": "One-way and ineffective communication with citizens.",
+      "solution1": "A direct, bidirectional, and real-time communication channel.",
+      "problem2": "Scattered data and a lack of information for decision-making.",
+      "solution2": "Data centralization with mobility and participation analytics.",
+      "problem3": "Local commerce is invisible in the digital ecosystem.",
+      "solution3": "A powerful platform to boost the local economy under your endorsement."
+    },
+    "modules_section": {
+      "title": "Intelligence Modules for the City of the Future",
+      "subtitle": "Enhance your management with citizen participation and analytics tools designed for the public sector.",
+      "module1_title": "Mobility Analytics",
+      "module1_description": "Turn anonymous data into insights to optimize traffic, public transport, and urban planning.",
+      "module1_feature1": "Footfall heatmaps",
+      "module1_feature2": "Analysis of popular routes",
+      "module-feature3": "Parking usage reports",
+      "module2_title": "Citizen Participation Pro",
+      "module2_description": "Involve your citizens in important decisions with direct and transparent interaction tools.",
+      "module2_feature1": "Geolocated surveys and polls",
+      "module2_feature2": "Participatory budgeting",
+      "module2_feature3": "Voting for local proposals",
+      "module3_title": "Crisis & Alert Management",
+      "module3_description": "Communicate critical information instantly and targeted during events or emergencies.",
+      "module3_feature1": "Mass push alert dispatch",
+      "module3_feature2": "Targeting by neighborhood or zone",
+      "module3_feature3": "Emergency communication channel"
+    },
+    "contact_section": {
+      "title": "Let's talk about the future.",
+      "subtitle": "Fill out the form and our team will contact you to schedule a personalized, no-commitment demonstration.",
+      "label_name": "Full Name",
+      "placeholder_name": "Your first and last name",
+      "label_role": "Position / Role",
+      "placeholder_role": "e.g., Councilor for New Technologies",
+      "label_council": "City Council / Entity",
+      "placeholder_council": "e.g., Blanes City Council",
+      "label_email": "Email Address",
+      "placeholder_email": "your.email@domain.com",
+      "label_message": "Message (optional)",
+      "placeholder_message": "Is there anything specific you would like to see in the demo?",
+      "button_submit": "Request Demo"
+    }
+  }
+}

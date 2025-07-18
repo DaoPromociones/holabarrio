@@ -1,5 +1,5 @@
 
-import { Negocio } from "../../models/negocio";
+import { Negocio } from "@/core/models/negocio";
 
 export interface NegocioRepository {
   getAll(): Promise<Negocio[]>;
