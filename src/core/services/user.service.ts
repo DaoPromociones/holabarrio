@@ -11,7 +11,11 @@ export class UserService implements UserPort {
     // La lógica de negocio podría ir aquí. Por ahora, solo llamamos al repositorio.
     return this.userRepository.findById(id);
   }
-
+  
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findByEmail(email);
+  }
+  
   async createUser(data: Omit<User, "id" | "role" | "updatedAt" | "emailVerified">): Promise<User> {
     // Aquí podríamos añadir lógica de negocio, como validar los datos
     // o enviar un email de bienvenida usando un futuro EmailService.

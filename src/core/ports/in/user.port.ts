@@ -9,10 +9,12 @@ export interface UserPort {
    */
   getUserById(id: string): Promise<User | null>;
 
-  /**
-   * Obtiene todos los usuarios del sistema.
-   * @returns Una promesa que resuelve a un array con todos los usuarios.
+ /**
+   * Busca un usuario por su email.
+   * @param email El email del usuario a buscar.
+   * @returns Una promesa que resuelve al usuario o null si no se encuentra.
    */
+  findByEmail(email: string): Promise<User | null>;
   getAllUsers(): Promise<User[]>;
 
   /**
