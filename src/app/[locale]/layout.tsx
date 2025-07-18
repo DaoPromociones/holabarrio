@@ -39,7 +39,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       <Navigation
         locale={locale}
         dictionary={dictionary.navigation} // Pasamos la sección correcta del diccionario
-        user={null}
+        
       />
       <main>{children}</main>
       <Footer locale={locale} dictionary={dictionary} />
