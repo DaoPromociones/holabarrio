@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { locales, defaultLocale } from "./i18n/config"
+import { locales, defaultLocale } from "@/i18n/config"
 
 /**
  * Middleware de Next.js para manejar la internacionalización (i18n)
