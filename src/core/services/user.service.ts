@@ -16,7 +16,7 @@ export class UserService implements UserPort {
     return this.userRepository.findByEmail(email);
   }
   
-  async createUser(data: Omit<User, "id" | "role" | "updatedAt" | "emailVerified">): Promise<User> {
+  async create(data: Omit<User, "id" | "role" | "updatedAt" | "emailVerified">): Promise<User> {
     // Aquí podríamos añadir lógica de negocio, como validar los datos
     // o enviar un email de bienvenida usando un futuro EmailService.
     // Por ahora, delegamos directamente al repositorio.

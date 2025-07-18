@@ -37,5 +37,5 @@ export interface UserPort {
    * @param data Los datos del usuario a crear.
    * @returns Una promesa que resuelve al usuario recién creado.
    */
-  createUser(data: Omit<User, 'id' | 'updatedAt' | 'role'>): Promise<User>;
+  create(data: Omit<User, 'id' | 'updatedAt' | 'role'>): Promise<User>;
 }
