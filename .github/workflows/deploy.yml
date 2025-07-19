@@ -29,20 +29,18 @@ jobs:
           timeout: 30m
           script: |
             set -e
-            # Navega a la carpeta principal del proyecto Docker en el VPS
-            cd ~/osrm_project
-            
-            # Entra en la carpeta de la app, actualiza el código y vuelve
-            cd holabarrio
+            # Navegamos a la carpeta del proyecto y NOS QUEDAMOS DENTRO
+            cd ~/osrm_project/holabarrio
+
             git pull origin main
-            cd ..
-            echo "DATABASE_URL_AUTH=${{ secrets.DATABASE_URL_AUTH }}" > ./holabarrio/.env
-            echo "DATABASE_URL_APP=${{ secrets.DATABASE_URL_APP }}" >> ./holabarrio/.env
-            echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> ./holabarrio/.env
-            echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> ./holabarrio/.env
-            echo "GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }}" >> ./holabarrio/.env
-            echo "GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }}" >> ./holabarrio/.env
-            echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> ./holabarrio/.env
+            # Creamos el fichero .env desde cero y AÑADIMOS todas las claves
+            echo "DATABASE_URL_AUTH=${{ secrets.DATABASE_URL_AUTH }}" > ./.env
+            echo "DATABASE_URL_APP=${{ secrets.DATABASE_URL_APP }}" >> ./.env
+            echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> ./.env
+            echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> ./.env
+            echo "GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }}" >> ./.env
+            echo "GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }}" >> ./.env
+            echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> ./.env
 
 
             # Detiene los contenedores actuales
