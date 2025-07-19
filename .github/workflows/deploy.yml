@@ -26,6 +26,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          timeout: 30m
           script: |
             set -e
             # Navega a la carpeta principal del proyecto Docker en el VPS
