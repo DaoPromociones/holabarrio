@@ -23,7 +23,7 @@ services:
     environment:
       PBF_PATH: /data/region.osm.pbf
       REPLICATION_URL: https://download.geofabrik.de/europe/spain/cataluna-updates
-      NOMINATIM_PASSWORD: MatusZaida180467      
+      NOMINATIM_PASSWORD: MatusZaida180467
     volumes:
       - ./cataluna-latest.osm.pbf:/data/region.osm.pbf:ro
       - nominatim_data:/var/lib/postgresql/14/main
@@ -36,6 +36,12 @@ services:
     volumes:
       - osrm_data:/data
     command: "osrm-routed --algorithm mld /data/map.osrm"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   webapp:
     build:
@@ -46,7 +52,7 @@ services:
       - ./.env
     depends_on:
       - postgres
-    
+
   nginx_proxy:
     image: nginx:alpine
     container_name: nginx_proxy
@@ -59,8 +65,10 @@ services:
       - certbot_www:/var/www/certbot/:ro
       - certbot_conf:/etc/letsencrypt/:ro
     depends_on:
-      - webapp
-      - osrm_backend
+      webapp:
+        condition: service_started
+      osrm_backend:
+        condition: service_healthy
 
   certbot:
     image: certbot/certbot

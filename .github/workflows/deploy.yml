@@ -1,25 +1,18 @@
-# Nombre del workflow
 name: Deploy to VPS
 
-# Disparador: se activa cuando subes código a la rama 'main'
 on:
   push:
     branches:
       - main
 
-# Trabajos a ejecutar
 jobs:
   deploy:
-    # El tipo de máquina virtual donde se ejecutará el workflow
     runs-on: ubuntu-latest
 
-    # Pasos del trabajo
     steps:
-      # Paso 1: Descarga tu código del repositorio
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Paso 2: Ejecuta los comandos en tu VPS por SSH
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
@@ -29,11 +22,10 @@ jobs:
           timeout: 30m
           script: |
             set -e
-            # Navegamos a la carpeta del proyecto y NOS QUEDAMOS DENTRO
             cd ~/osrm_project/holabarrio
-
+            
             git pull origin main
-            # Creamos el fichero .env desde cero y AÑADIMOS todas las claves
+            
             echo "DATABASE_URL_AUTH=${{ secrets.DATABASE_URL_AUTH }}" > ./.env
             echo "DATABASE_URL_APP=${{ secrets.DATABASE_URL_APP }}" >> ./.env
             echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> ./.env
@@ -41,17 +33,9 @@ jobs:
             echo "GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }}" >> ./.env
             echo "GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }}" >> ./.env
             echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> ./.env
-
-
-            # Detiene los contenedores actuales
-            docker compose down
+            echo "NEXTAUTH_URL=https://holabarrio.es" >> ./.env
             
-            # Reconstruye (si hay cambios) y levanta todos los servicios
+            docker compose down --remove-orphans
             docker compose up --build -d
             
-            # (Opcional) Pausa para que los servicios se estabilicen
-            echo "Esperando 10 segundos..."
-            sleep 10
-
-            # Limpia imágenes de Docker que ya no se usan
             docker image prune -f
