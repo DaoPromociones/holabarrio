@@ -1,23 +1,25 @@
-
 import { NextResponse } from 'next/server';
 import { negocioServiceInstance } from '@/lib/di-container';
-import { Negocio } from '@/core/models/negocio';
 
 export async function GET() {
   try {
-    const negocios = await negocioServiceInstance.getAllNegocios();
+    // CORREGIDO: Usamos el nombre estándar 'findAll'
+    const negocios = await negocioServiceInstance.findAll();
     return NextResponse.json(negocios);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch negocios' }, { status: 500 });
+    // CORREGIDO: Mensaje en español
+    return NextResponse.json({ error: 'Error al obtener los negocios' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const newNegocio = await negocioServiceInstance.createNegocio(body as Negocio);
+    // CORREGIDO: Usamos el nombre estándar 'create'
+    const newNegocio = await negocioServiceInstance.create(body);
     return NextResponse.json(newNegocio, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create negocio' }, { status: 500 });
+    // CORREGIDO: Mensaje en español
+    return NextResponse.json({ error: 'Error al crear el negocio' }, { status: 500 });
   }
 }

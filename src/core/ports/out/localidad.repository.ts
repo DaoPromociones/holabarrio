@@ -7,7 +7,7 @@ export interface LocalidadRepository {
    * @param data Los datos de la localidad a crear.
    * @returns La localidad recién creada.
    */
-  create(data: Omit<Localidad, "id">): Promise<Localidad>;
+  create(data: Omit<Localidad, "id" | "fechaCreacion" | "fechaActualizacion">): Promise<Localidad>;
 
   /**
    * Busca una localidad por su ID.

@@ -1,7 +1,7 @@
 // src/repositories/prisma.user.repository.impl.ts
 
 import { PrismaClient as PrismaClientAuth, User as PrismaUser, UserRole } from '@prisma/client-auth';
-import { User as CoreUser } from "@/core/models/user";
+import { User as CoreUser, UserRole as CoreUserRole } from "@/core/models/user";
 import { UserRepository } from "@/core/ports/out/user.repository";
 import { prismaAuth } from "@/lib/prisma";
 
@@ -20,9 +20,13 @@ export class PrismaUserRepositoryImpl implements UserRepository {
       name: prismaUser.name,
       email: prismaUser.email,
       emailVerified: prismaUser.emailVerified,
+      password: prismaUser.password,
       image: prismaUser.image,
       nombreUsuario: prismaUser.nombreUsuario,
-      role: prismaUser.role, // Prisma ya nos da el tipo enum correcto
+      
+      // --- MAPEANDO EL ENUM ---
+      // Casteamos el tipo, ya que sabemos que los valores son idénticos ("USER", "ADMIN")
+      role: prismaUser.role as CoreUserRole,
     };
   }
 

@@ -11,13 +11,13 @@ export class PrismaLocalidadRepositoryImpl implements LocalidadRepository {
   private mapToDomain(prismaLocalidad: PrismaLocalidad): CoreLocalidad {
     return {
       ...prismaLocalidad,
-      // Prisma devuelve Decimal, lo convertimos a número para nuestro modelo
       latitudCentro: prismaLocalidad.latitudCentro ? prismaLocalidad.latitudCentro.toNumber() : null,
       longitudCentro: prismaLocalidad.longitudCentro ? prismaLocalidad.longitudCentro.toNumber() : null,
     };
   }
 
-  async create(data: Omit<CoreLocalidad, "id">): Promise<CoreLocalidad> {
+  // --- FIRMA DEL MÉTODO CORREGIDA ---
+  async create(data: Omit<CoreLocalidad, "id" | "fechaCreacion" | "fechaActualizacion">): Promise<CoreLocalidad> {
     const prismaLocalidad = await this.prisma.localidad.create({ data });
     return this.mapToDomain(prismaLocalidad);
   }

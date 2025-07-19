@@ -23,8 +23,7 @@ export async function POST(request: Request) {
       email: email,
       password: hashedPassword,
       nombreUsuario: name || email.split('@')[0],
-      emailVerified: null,
-      image: null,
+      
     });
 
     // @ts-ignore - Omitimos la contraseña en la respuesta por seguridad

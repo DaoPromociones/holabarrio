@@ -4,11 +4,9 @@ import { UserPort } from "@/core/ports/in/user.port";
 import { UserRepository } from "@/core/ports/out/user.repository";
 
 export class UserService implements UserPort {
-  // El servicio depende de la INTERFAZ del repositorio, no de la implementación.
   constructor(private readonly userRepository: UserRepository) {}
 
-  async getUserById(id: string): Promise<User | null> {
-    // La lógica de negocio podría ir aquí. Por ahora, solo llamamos al repositorio.
+  async findById(id: string): Promise<User | null> {
     return this.userRepository.findById(id);
   }
   
@@ -16,32 +14,25 @@ export class UserService implements UserPort {
     return this.userRepository.findByEmail(email);
   }
   
-  async create(data: Omit<User, "id" | "role" | "updatedAt" | "emailVerified">): Promise<User> {
-    // Aquí podríamos añadir lógica de negocio, como validar los datos
-    // o enviar un email de bienvenida usando un futuro EmailService.
-    // Por ahora, delegamos directamente al repositorio.
-    // El servicio se encarga de la lógica de negocio: asignar un rol por defecto.
-    const dataWithRole = {
-      ...data,
-      emailVerified: null,
-      role: "USER" as const,
-    };
-    return this.userRepository.create(dataWithRole);
-  }
-
-  async getAllUsers(): Promise<User[]> {
+  async findAll(): Promise<User[]> {
     return this.userRepository.findAll();
   }
 
-  async updateUser(id: string, data: Partial<Omit<User, "id" | "updatedAt">>): Promise<User> {
+  async create(data: Omit<User, "id" | "role" | "emailVerified" | "image">): Promise<User> {
+    const dataWithDefaults = {
+      ...data,
+      emailVerified: null,
+      image: null,
+      role: "USER" as const,
+    };
+    return this.userRepository.create(dataWithDefaults);
+  }
+
+  async update(id: string, data: Partial<Omit<User, "id">>): Promise<User> {
     return this.userRepository.update(id, data);
   }
 
-  async deleteUser(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.userRepository.delete(id);
   }
-
-  
-
-  
 }

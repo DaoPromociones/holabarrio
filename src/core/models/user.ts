@@ -1,13 +1,18 @@
 // src/core/models/user.ts
-import { UserRole } from "@prisma/client-auth";
 
-// Esta interfaz ahora es un reflejo 1:1 de nuestro modelo User en schema.prisma.
+// El enum ahora vive en el dominio, desacoplado de Prisma.
+export enum UserRole {
+  USER = "USER",
+  ADMIN = "ADMIN",
+}
+
 export interface User {
   id: string;
   name: string | null;
   email: string | null;
   emailVerified: Date | null;
   password?: string | null;
+
   image: string | null;
   nombreUsuario: string | null;
   role: UserRole;

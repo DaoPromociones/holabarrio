@@ -1,10 +1,10 @@
-
+// src/core/ports/in/negocio.port.ts
 import { Negocio } from "@/core/models/negocio";
 
-export interface NegocioPortIn {
-  getAllNegocios(): Promise<Negocio[]>;
-  getNegocioById(id: string): Promise<Negocio | null>;
-  createNegocio(negocio: Negocio): Promise<Negocio>;
-  updateNegocio(id: string, negocio: Negocio): Promise<Negocio | null>;
-  deleteNegocio(id: string): Promise<boolean>;
+export interface NegocioPort {
+  create(data: Omit<Negocio, "id" | "fechaCreacion" | "fechaActualizacion">): Promise<Negocio>;
+  findById(id: string): Promise<Negocio | null>;
+  findAll(): Promise<Negocio[]>;
+  update(id: string, data: Partial<Omit<Negocio, "id">>): Promise<Negocio>;
+  delete(id: string): Promise<void>; 
 }

@@ -19,7 +19,7 @@ export default async function AdminUsersPage() {
   }
 
   // 3. Si hay sesión, obtenemos los datos y renderizamos la página
-  const users = await userServiceInstance.getAllUsers();
+  const users = await userServiceInstance.findAll();
 
   return (
     <main className="container mx-auto p-8">

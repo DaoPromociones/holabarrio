@@ -1,28 +1,28 @@
-
+// src/core/services/negocio.service.ts
 import { Negocio } from "@/core/models/negocio";
-import { NegocioPortIn } from "@/core/ports/in/negocio.port";
-import { NegocioRepository } from "@/core/ports/out/negocio.repository";
+import { NegocioPort } from "../ports/in/negocio.port";
+import { NegocioRepository } from "../ports/out/negocio.repository";
 
-export class NegocioService implements NegocioPortIn {
+export class NegocioService implements NegocioPort {
   constructor(private readonly negocioRepository: NegocioRepository) {}
 
-  public async getAllNegocios(): Promise<Negocio[]> {
-    return await this.negocioRepository.getAll();
+  async create(data: Omit<Negocio, "id" | "fechaCreacion" | "fechaActualizacion">): Promise<Negocio> {
+    return this.negocioRepository.create(data);
   }
 
-  public async getNegocioById(id: string): Promise<Negocio | null> {
-    return await this.negocioRepository.getById(id);
+  async findById(id: string): Promise<Negocio | null> {
+    return this.negocioRepository.findById(id);
   }
 
-  public async createNegocio(negocio: Negocio): Promise<Negocio> {
-    return await this.negocioRepository.create(negocio);
+  async findAll(): Promise<Negocio[]> {
+    return this.negocioRepository.findAll();
   }
 
-  public async updateNegocio(id: string, negocio: Negocio): Promise<Negocio | null> {
-    return await this.negocioRepository.update(id, negocio);
+  async update(id: string, data: Partial<Omit<Negocio, "id">>): Promise<Negocio> {
+    return this.negocioRepository.update(id, data);
   }
 
-  public async deleteNegocio(id: string): Promise<boolean> {
-    return await this.negocioRepository.delete(id);
+  async delete(id: string): Promise<void> {
+    await this.negocioRepository.delete(id);
   }
 }

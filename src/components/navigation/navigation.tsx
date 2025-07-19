@@ -99,7 +99,8 @@ export function Navigation({ locale, dictionary }: NavigationProps) {
                       <Link href={`/${locale}/dashboard`}>{dictionary?.navigation?.dashboard || "Panel"}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
+                    {/* --- CORRECCIÓN 1 --- */}
+                    <DropdownMenuItem onClick={() => signOut({ callbackUrl: `/${locale}` })} className="cursor-pointer">
                       {dictionary?.navigation?.logout || "Cerrar Sesión"}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -140,7 +141,8 @@ export function Navigation({ locale, dictionary }: NavigationProps) {
               {session ? (
                 <>
                   <Link href={`/${locale}/dashboard`} onClick={closeMenu}>{dictionary?.navigation?.dashboard || "Panel"}</Link>
-                  <button onClick={() => { closeMenu(); signOut(); }}>{dictionary?.navigation?.logout || "Cerrar Sesión"}</button>
+                  {/* --- CORRECCIÓN 2 --- */}
+                  <button onClick={() => { closeMenu(); signOut({ callbackUrl: `/${locale}` }); }}>{dictionary?.navigation?.logout || "Cerrar Sesión"}</button>
                 </>
               ) : (
                 <>
